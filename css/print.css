@@ -1,0 +1,58 @@
+@page{size:A4;margin:14mm}
+
+.site-header,
+.hero__actions,
+.contact__links,
+.back-to-top,
+.toast,
+.carousel-controls,
+.carousel-dots{
+  display:none!important;
+}
+
+body{
+  background:#fff!important;
+  color:#111!important;
+  font-size:10pt;
+}
+
+.section{padding:10mm 0}
+.hero{min-height:auto}
+
+.hero__grid,
+.about-grid,
+.timeline-layout,
+.contact__inner{
+  display:block;
+}
+
+.profile-card,
+.card,
+.case-card,
+.timeline-detail,
+.workflow article{
+  box-shadow:none;
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+.cases-track{
+  display:block;
+  transform:none!important;
+}
+
+.case-card{
+  margin-bottom:8mm;
+}
+
+p,
+li,
+.hero__lead,
+.card p,
+.case-card p,
+.timeline-detail p,
+.timeline-detail li{
+  color:#333!important;
+}
+
+.section-title{font-size:24pt}

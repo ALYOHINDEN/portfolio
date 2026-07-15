@@ -1,0 +1,32 @@
+[
+  {
+    "number": "01",
+    "title": "Explore",
+    "text": "Study the domain, regulations and existing processes."
+  },
+  {
+    "number": "02",
+    "title": "Research",
+    "text": "Interview stakeholders and uncover real user needs."
+  },
+  {
+    "number": "03",
+    "title": "Model",
+    "text": "Describe the AS-IS state, identify issues and design the TO-BE process."
+  },
+  {
+    "number": "04",
+    "title": "Align",
+    "text": "Discuss solution options with stakeholders and the delivery team."
+  },
+  {
+    "number": "05",
+    "title": "Design",
+    "text": "Define requirements, scenarios, data models and integrations."
+  },
+  {
+    "number": "06",
+    "title": "Deliver",
+    "text": "Support development, testing and implementation."
+  }
+]

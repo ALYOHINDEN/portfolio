@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Processes of a supranational regulatory authority",
+    "challenge": "A complex regulatory domain and a high risk of failing acceptance testing.",
+    "actions": [
+      "Studied regulatory requirements.",
+      "Aligned processes with stakeholders.",
+      "Designed the solution and supported development."
+    ],
+    "result": "Two processes passed acceptance testing on the first attempt."
+  },
+  {
+    "title": "Machine-readable powers of attorney",
+    "challenge": "New legislation and no existing solution in the product.",
+    "actions": [
+      "Studied the legislation.",
+      "Conducted user interviews.",
+      "Defined and validated user scenarios."
+    ],
+    "result": "The solution was implemented and brought to production."
+  },
+  {
+    "title": "Contact centre monitoring",
+    "challenge": "Data from several digital channels had to be consolidated and made useful for management.",
+    "actions": [
+      "Designed the data model.",
+      "Developed SQL scripts.",
+      "Created Grafana dashboards."
+    ],
+    "result": "Managers received clear performance metrics for chats and messengers."
+  },
+  {
+    "title": "Operational reporting modernisation",
+    "challenge": "Reporting relied on manual Excel processing and did not scale with increasing data volumes.",
+    "actions": [
+      "Defined required metrics and data sources.",
+      "Moved storage and processing into databases.",
+      "Configured visualisations in Power BI and Qlik Sense."
+    ],
+    "result": "Reporting evolved from manual Excel work to a more reliable database and BI setup."
+  },
+  {
+    "title": "Report builder",
+    "challenge": "Contact centre administrators depended on developers whenever they needed a new report or dashboard.",
+    "actions": [
+      "Researched administrator tasks and scenarios.",
+      "Designed an intuitive report configuration flow.",
+      "Defined the builder interface and available parameters."
+    ],
+    "result": "Administrators became able to create the dashboards they needed without ongoing development support."
+  }
+]

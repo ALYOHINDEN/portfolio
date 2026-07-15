@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Research and discovery",
+    "text": "Domain exploration, interviews, problem identification and hypothesis validation."
+  },
+  {
+    "title": "Business processes",
+    "text": "AS-IS / TO-BE, process optimisation, bottleneck analysis and change design."
+  },
+  {
+    "title": "Requirements management",
+    "text": "Elicitation, analysis, formalisation, alignment and delivery support."
+  },
+  {
+    "title": "User scenarios",
+    "text": "User Stories, Use Cases, User Flows, interviews and user feedback."
+  },
+  {
+    "title": "Systems analysis",
+    "text": "REST APIs, SOAP, Kafka, JSON, XML, data models and integrations."
+  },
+  {
+    "title": "Data and BI",
+    "text": "SQL, PostgreSQL, Grafana, Power BI, Qlik Sense and Excel."
+  }
+]

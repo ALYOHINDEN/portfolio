@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Место для фотографии</title>
+  <desc id="desc">Замените путь photo в data/profile.json на собственное изображение.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17345d"/>
+      <stop offset="1" stop-color="#0b1728"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="350" r="145" fill="#6ea8ee" opacity=".42"/>
+  <path d="M165 850c30-190 145-285 235-285s205 95 235 285" fill="#6ea8ee" opacity=".42"/>
+  <text x="400" y="920" fill="#dcecff" font-family="Arial, sans-serif" font-size="34" text-anchor="middle">Добавьте свою фотографию</text>
+</svg>

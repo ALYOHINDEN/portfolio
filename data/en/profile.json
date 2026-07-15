@@ -1,0 +1,30 @@
+{
+  "name": "Denis Alyohin",
+  "title": "Business Analyst with a Systems Analysis Background",
+  "subtitle": "To me, being an analyst means first understanding what is really happening: how the process works, what problem the user faces and why the business needs change. Only then do I turn that understanding into an agreed solution that is clear to stakeholders and feasible for the development team.",
+  "experience": "10+ years of experience",
+  "availability": "Looking for a new team",
+  "photo": "assets/images/avatar-placeholder.svg",
+  "email": "denisalyokhin@gmail.com",
+  "phone": "+7 (920) 884-51-77",
+  "telegram": "https://t.me/alyohinden",
+  "about": [
+    "I have worked in IT for more than ten years at the intersection of business, users and development.",
+    "I value analysis that begins not with a document or a technology, but with questions: what needs to change, why the problem exists and what a good outcome should look like.",
+    "I enjoy exploring new domains, researching user scenarios, designing processes and supporting solutions through implementation."
+  ],
+  "domains": [
+    "Government digital services",
+    "Telecom and contact centres",
+    "Electronic document management",
+    "Regulated systems",
+    "Business Intelligence and reporting"
+  ],
+  "focus": [
+    "Process research",
+    "User scenarios",
+    "Product Discovery",
+    "Solution design"
+  ],
+  "availabilityMeta": "Business Analyst • Remote • Full-time"
+}

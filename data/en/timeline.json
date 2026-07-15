@@ -1,0 +1,106 @@
+[
+  {
+    "id": "beeline-1",
+    "duration": "2 years 9 months",
+    "company": "Beeline",
+    "role": "Data Analyst",
+    "stage": "Learned to start with the business question, not the report",
+    "summary": "Contact centre operational reporting",
+    "context": "Internal analytics for the customer service division.",
+    "development": "At this stage, I learned to clarify why a stakeholder needed a metric and what decision it would support before searching for data sources and defining the calculation.",
+    "tasks": [
+      "Clarified management needs with internal stakeholders.",
+      "Defined metrics and data sources.",
+      "Automated data collection and processing.",
+      "Built models and visualisations in Excel, Power BI and Qlik Sense."
+    ],
+    "results": [
+      "Moved part of the reporting from manual Excel processing to databases and BI tools.",
+      "Reduced manual effort and improved the reliability of reporting processes."
+    ]
+  },
+  {
+    "id": "expert",
+    "duration": "2 years 9 months",
+    "company": "Expert Solutions",
+    "role": "Full-stack Analyst",
+    "stage": "Moved from data to product and end-to-end processes",
+    "summary": "IP telephony platform for Beeline",
+    "context": "A platform for voice and text interactions, agent management and contact centre reporting.",
+    "development": "Working with a full-scale platform helped me see the product end to end: from a customer interaction scenario to administrator tools and management reporting.",
+    "tasks": [
+      "Researched customer service processes.",
+      "Elicited and formalised requirements.",
+      "Designed platform functionality.",
+      "Documented user scenarios.",
+      "Supported development and production rollout."
+    ],
+    "results": [
+      "Contributed to the development of a unified omnichannel customer service platform.",
+      "Designed a reporting builder that enabled administrators to create dashboards independently."
+    ]
+  },
+  {
+    "id": "astral",
+    "duration": "2 years",
+    "company": "Astral-Soft",
+    "role": "Business / Systems Analyst",
+    "stage": "Deepened my user research and regulatory analysis skills",
+    "summary": "Electronic document management and machine-readable powers of attorney",
+    "context": "A web-based electronic document management system integrated with government regulators.",
+    "development": "This role gave me my strongest business analysis experience: user interviews, scenario and hypothesis validation, and translating legislation into clear product functionality.",
+    "tasks": [
+      "Analysed legislation and regulatory documentation.",
+      "Conducted user interviews and researched usage scenarios.",
+      "Created user profiles and identified target audiences.",
+      "Validated product hypotheses.",
+      "Designed electronic forms and automated data entry."
+    ],
+    "results": [
+      "Independently studied the legislation on machine-readable powers of attorney.",
+      "Designed the solution and supported its implementation and production testing."
+    ]
+  },
+  {
+    "id": "beeline-2",
+    "duration": "2 years 2 months",
+    "company": "Beeline",
+    "role": "Systems / Business Analyst",
+    "stage": "Connected process research with technical implementation",
+    "summary": "Contact centre monitoring and workload management",
+    "context": "An internal system for monitoring customer interactions and managing contact centre workload.",
+    "development": "I handled a broad task lifecycle: from problem research and process modelling to REST APIs, SQL and dashboards. This strengthened my role as a bridge between business and development.",
+    "tasks": [
+      "Researched user problems and business processes.",
+      "Modelled AS-IS and TO-BE processes.",
+      "Facilitated meetings and aligned solution options.",
+      "Designed REST APIs and data models.",
+      "Developed PostgreSQL scripts and Grafana dashboards."
+    ],
+    "results": [
+      "Implemented processing of customer interaction data from chats and messengers.",
+      "Created dashboards for workload and performance monitoring."
+    ]
+  },
+  {
+    "id": "renue",
+    "duration": "1 year 2 months",
+    "company": "Renue",
+    "role": "Business / Systems Analyst",
+    "stage": "Defined my professional focus",
+    "summary": "Government information systems and digital services",
+    "context": "Development of government information systems and regulatory and technical documentation for a supranational regulatory authority, as well as a regional portal for one of Russia’s largest regions.",
+    "development": "These projects made my professional focus clear: complex domain research, understanding stakeholder pain points and designing solutions — rather than technology for its own sake.",
+    "tasks": [
+      "Studied regulations and the business domain.",
+      "Identified stakeholder problems and needs.",
+      "Facilitated meetings and aligned requirements.",
+      "Designed contracts, databases and services.",
+      "Supported development and acceptance testing."
+    ],
+    "results": [
+      "wo processes of the supranational regulatory authority passed acceptance testing on the first attempt.",
+      "Independently mastered SAML 2.0 and designed the authentication solution for the regional portal."
+    ]
+  }
+]
