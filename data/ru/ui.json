@@ -44,5 +44,9 @@
   "nextCase": "Следующий кейс",
   "carouselGroup": "Показать группу кейсов {number}",
   "photoAlt": "Фотография Дениса Алёхина",
-  "contextHeading": "С чем работал"
+  "contextHeading": "С чем работал",
+  "caseActions": "Как решал задачу",
+  "businessResult": "Польза для бизнеса",
+  "timelineDialogClose": "Закрыть информацию об опыте",
+  "timelineDialogLabel": "Подробности этапа карьерного пути"
 }

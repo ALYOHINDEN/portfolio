@@ -106,28 +106,81 @@ const renderSkills = () => {
     .join("");
 };
 
+const isMobileTimeline = () => window.matchMedia("(max-width: 760px)").matches;
+
+const buildTimelineDetails = (item, titleId = "") => `
+  <small>${item.duration}</small>
+  <h3 ${titleId ? `id="${titleId}"` : ""}>${item.company}</h3>
+  <p class="role">${item.role}</p>
+  <p class="stage">${item.stage}</p>
+  <p class="development">${item.development}</p>
+
+  <h4>${state.ui.contextHeading}</h4>
+  <p>${item.context}</p>
+
+  <h4>${state.ui.tasks}</h4>
+  <ul>${item.tasks.map((task) => `<li>${task}</li>`).join("")}</ul>
+
+  <h4>${state.ui.results}</h4>
+  <ul>${item.results.map((result) => `<li>${result}</li>`).join("")}</ul>
+`;
+
+const closeTimelineModal = () => {
+  const modal = document.querySelector("#timeline-modal");
+  if (modal.hidden) return;
+
+  modal.classList.remove("is-visible");
+  document.body.classList.remove("modal-open");
+
+  window.setTimeout(() => {
+    modal.hidden = true;
+    document.querySelector("#timeline-modal-content").innerHTML = "";
+  }, 220);
+};
+
+const openTimelineModal = (item) => {
+  const modal = document.querySelector("#timeline-modal");
+  const content = document.querySelector("#timeline-modal-content");
+  const close = document.querySelector("#timeline-modal-close");
+  const backdrop = modal.querySelector(".timeline-modal__backdrop");
+
+  content.innerHTML = buildTimelineDetails(item, "timeline-modal-title");
+  close.setAttribute("aria-label", state.ui.timelineDialogClose);
+  backdrop.setAttribute("aria-label", state.ui.timelineDialogClose);
+  modal.querySelector(".timeline-modal__dialog").setAttribute(
+    "aria-label",
+    state.ui.timelineDialogLabel
+  );
+
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  requestAnimationFrame(() => {
+    modal.classList.add("is-visible");
+    close.focus();
+  });
+};
+
+const setupTimelineModal = () => {
+  const modal = document.querySelector("#timeline-modal");
+
+  modal.querySelectorAll("[data-timeline-close]").forEach((button) => {
+    button.onclick = closeTimelineModal;
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) {
+      closeTimelineModal();
+    }
+  });
+};
+
 const renderTimeline = () => {
   const items = state.timeline;
   const list = document.querySelector("#timeline-list");
   const detail = document.querySelector("#timeline-detail");
 
-  const showDetails = (item) => {
-    detail.innerHTML = `
-      <small>${item.duration}</small>
-      <h3>${item.company}</h3>
-      <p class="role">${item.role}</p>
-      <p class="stage">${item.stage}</p>
-      <p class="development">${item.development}</p>
-
-      <h4>${state.ui.contextHeading}</h4>
-      <p>${item.context}</p>
-
-      <h4>${state.ui.tasks}</h4>
-      <ul>${item.tasks.map((task) => `<li>${task}</li>`).join("")}</ul>
-
-      <h4>${state.ui.results}</h4>
-      <ul>${item.results.map((result) => `<li>${result}</li>`).join("")}</ul>
-    `;
+  const showDesktopDetails = (item) => {
+    detail.innerHTML = buildTimelineDetails(item);
   };
 
   list.innerHTML = items
@@ -146,7 +199,8 @@ const renderTimeline = () => {
     )
     .join("");
 
-  showDetails(items[0]);
+  showDesktopDetails(items[0]);
+  closeTimelineModal();
 
   list.onclick = (event) => {
     const button = event.target.closest(".timeline-item");
@@ -158,7 +212,13 @@ const renderTimeline = () => {
     button.classList.add("is-active");
 
     const selected = items.find((item) => item.id === button.dataset.id);
-    if (selected) showDetails(selected);
+    if (!selected) return;
+
+    if (isMobileTimeline()) {
+      openTimelineModal(selected);
+    } else {
+      showDesktopDetails(selected);
+    }
   };
 };
 
@@ -176,9 +236,13 @@ const renderProjects = () => {
         <article class="case-card">
           <span class="case-label">${state.ui.caseLabel}</span>
           <h3>${project.title}</h3>
-          <p><strong>${state.ui.challenge}:</strong> ${project.challenge}</p>
-          <ul>${project.actions.map((action) => `<li>${action}</li>`).join("")}</ul>
-          <p class="result">${project.result}</p>
+          <p class="case-card__challenge"><strong>${state.ui.challenge}:</strong> ${project.challenge}</p>
+          <h4 class="case-card__steps-title">${state.ui.caseActions}</h4>
+          <ul class="case-card__steps">${project.actions.map((action) => `<li>${action}</li>`).join("")}</ul>
+          <div class="case-card__result">
+            <span>${state.ui.businessResult}</span>
+            <p>${project.result}</p>
+          </div>
         </article>
       `
     )
@@ -190,14 +254,26 @@ const renderProjects = () => {
 
 const setupCasesCarousel = (totalItems) => {
   const track = document.querySelector("#projects-track");
+  const carousel = document.querySelector("#cases-carousel");
   const prev = document.querySelector("#cases-prev");
   const next = document.querySelector("#cases-next");
   const dots = document.querySelector("#carousel-dots");
 
   let index = 0;
   let visibleCards = getVisibleCards();
+  let pointerId = null;
+  let dragStartX = 0;
+  let dragDelta = 0;
+  let baseTranslate = 0;
+  let didDrag = false;
 
   const maxIndex = () => Math.max(0, totalItems - visibleCards);
+
+  const getStep = () => {
+    const firstCard = track.querySelector(".case-card");
+    if (!firstCard) return 0;
+    return firstCard.getBoundingClientRect().width + 20;
+  };
 
   const buildDots = () => {
     dots.innerHTML = "";
@@ -217,13 +293,13 @@ const setupCasesCarousel = (totalItems) => {
     }
   };
 
-  const update = () => {
-    const firstCard = track.querySelector(".case-card");
-    if (!firstCard) return;
+  const update = (animate = true) => {
+    const step = getStep();
+    if (!step) return;
 
-    const gap = 20;
-    const cardWidth = firstCard.getBoundingClientRect().width;
-    track.style.transform = `translateX(-${index * (cardWidth + gap)}px)`;
+    baseTranslate = -index * step;
+    track.style.transition = animate ? "transform .35s ease" : "none";
+    track.style.transform = `translate3d(${baseTranslate}px,0,0)`;
 
     prev.disabled = index === 0;
     next.disabled = index >= maxIndex();
@@ -250,20 +326,76 @@ const setupCasesCarousel = (totalItems) => {
       index = Math.min(index, maxIndex());
       buildDots();
     }
+    update(false);
+  };
+
+  const handlePointerDown = (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+
+    pointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragDelta = 0;
+    didDrag = false;
+    carousel.classList.add("is-dragging");
+    track.style.transition = "none";
+    carousel.setPointerCapture?.(pointerId);
+  };
+
+  const handlePointerMove = (event) => {
+    if (pointerId !== event.pointerId) return;
+
+    dragDelta = event.clientX - dragStartX;
+    if (Math.abs(dragDelta) > 6) didDrag = true;
+
+    const atStart = index === 0 && dragDelta > 0;
+    const atEnd = index === maxIndex() && dragDelta < 0;
+    const resistance = atStart || atEnd ? 0.28 : 1;
+
+    track.style.transform = `translate3d(${baseTranslate + dragDelta * resistance}px,0,0)`;
+  };
+
+  const finishDrag = (event) => {
+    if (pointerId !== event.pointerId) return;
+
+    const threshold = Math.min(110, Math.max(42, getStep() * 0.16));
+    if (dragDelta <= -threshold) index = Math.min(maxIndex(), index + 1);
+    if (dragDelta >= threshold) index = Math.max(0, index - 1);
+
+    pointerId = null;
+    dragDelta = 0;
+    carousel.classList.remove("is-dragging");
+    carousel.releasePointerCapture?.(event.pointerId);
     update();
+  };
+
+  const suppressClickAfterDrag = (event) => {
+    if (!didDrag) return;
+    event.preventDefault();
+    event.stopPropagation();
+    didDrag = false;
   };
 
   prev.addEventListener("click", handlePrev);
   next.addEventListener("click", handleNext);
   window.addEventListener("resize", handleResize);
+  carousel.addEventListener("pointerdown", handlePointerDown);
+  carousel.addEventListener("pointermove", handlePointerMove);
+  carousel.addEventListener("pointerup", finishDrag);
+  carousel.addEventListener("pointercancel", finishDrag);
+  carousel.addEventListener("click", suppressClickAfterDrag, true);
 
   buildDots();
-  requestAnimationFrame(update);
+  requestAnimationFrame(() => update(false));
 
   return () => {
     prev.removeEventListener("click", handlePrev);
     next.removeEventListener("click", handleNext);
     window.removeEventListener("resize", handleResize);
+    carousel.removeEventListener("pointerdown", handlePointerDown);
+    carousel.removeEventListener("pointermove", handlePointerMove);
+    carousel.removeEventListener("pointerup", finishDrag);
+    carousel.removeEventListener("pointercancel", finishDrag);
+    carousel.removeEventListener("click", suppressClickAfterDrag, true);
   };
 };
 
@@ -440,6 +572,7 @@ const init = async () => {
     setupThemeToggle();
     setupLanguageSwitcher();
     setupScrollNavigation();
+    setupTimelineModal();
 
     await loadLanguage(state.language);
 

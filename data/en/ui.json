@@ -44,5 +44,9 @@
   "nextCase": "Next case",
   "carouselGroup": "Show case group {number}",
   "photoAlt": "Photo of Denis Alyohin",
-  "contextHeading": "What I worked with"
+  "contextHeading": "What I worked with",
+  "caseActions": "How I approached it",
+  "businessResult": "Business impact",
+  "timelineDialogClose": "Close experience details",
+  "timelineDialogLabel": "Career stage details"
 }

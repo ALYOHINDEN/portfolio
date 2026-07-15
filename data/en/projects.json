@@ -1,52 +1,52 @@
 [
   {
     "title": "Processes of a supranational regulatory authority",
-    "challenge": "A complex regulatory domain and a high risk of failing acceptance testing.",
+    "challenge": "Complex regulatory requirements had to be translated into implementable digital processes while reducing the risk of acceptance-test findings.",
     "actions": [
-      "Studied regulatory requirements.",
-      "Aligned processes with stakeholders.",
-      "Designed the solution and supported development."
+      "Extracted mandatory scenarios, roles and constraints from regulations so the delivery team could work with unambiguous requirements.",
+      "Aligned target processes with stakeholders and resolved contradictions before acceptance testing.",
+      "Designed the solution and supported development to preserve regulatory and business compliance."
     ],
-    "result": "Two processes passed acceptance testing on the first attempt."
+    "result": "Two processes passed acceptance testing on the first attempt, reducing the risk of repeated testing, additional rework and launch delays."
   },
   {
     "title": "Machine-readable powers of attorney",
-    "challenge": "New legislation and no existing solution in the product.",
+    "challenge": "New legislation had to be incorporated into an existing product quickly without breaking established user workflows.",
     "actions": [
-      "Studied the legislation.",
-      "Conducted user interviews.",
-      "Defined and validated user scenarios."
+      "Translated legal requirements into clear product rules and constraints.",
+      "Interviewed users to validate real-world power-of-attorney workflows.",
+      "Defined and validated target scenarios, reducing the risk of building an inconvenient or unnecessary feature."
     ],
-    "result": "The solution was implemented and brought to production."
+    "result": "The functionality reached production, enabling the product to comply with new legislation on time while preserving practical user workflows."
   },
   {
     "title": "Contact centre monitoring",
-    "challenge": "Data from several digital channels had to be consolidated and made useful for management.",
+    "challenge": "Managers lacked a consolidated view of chat and messenger interactions, making workload and performance difficult to assess.",
     "actions": [
-      "Designed the data model.",
-      "Developed SQL scripts.",
-      "Created Grafana dashboards."
+      "Defined the management metrics needed to control digital channels.",
+      "Designed a data model and processing logic that brought fragmented events into a consistent structure.",
+      "Built SQL logic and Grafana dashboards that turned technical data into clear management indicators."
     ],
-    "result": "Managers received clear performance metrics for chats and messengers."
+    "result": "Managers gained transparent analytics for chats and messengers, creating a stronger basis for workload planning and operational decisions."
   },
   {
     "title": "Operational reporting modernisation",
-    "challenge": "Reporting relied on manual Excel processing and did not scale with increasing data volumes.",
+    "challenge": "Manual Excel reporting required repetitive work, did not scale and made the outcome overly dependent on individual employees.",
     "actions": [
-      "Defined required metrics and data sources.",
-      "Moved storage and processing into databases.",
-      "Configured visualisations in Power BI and Qlik Sense."
+      "Clarified which indicators stakeholders actually used for decisions.",
+      "Introduced centralised storage and automated data processing instead of manually assembled files.",
+      "Moved visualisation to Power BI and Qlik Sense to make recurring analysis easier and more accessible."
     ],
-    "result": "Reporting evolved from manual Excel work to a more reliable database and BI setup."
+    "result": "Reporting moved to a reliable database-and-BI setup, reducing manual work, improving calculation consistency and simplifying access to current metrics."
   },
   {
     "title": "Report builder",
-    "challenge": "Contact centre administrators depended on developers whenever they needed a new report or dashboard.",
+    "challenge": "Contact centre administrators depended on developers whenever a new report or dashboard was needed.",
     "actions": [
-      "Researched administrator tasks and scenarios.",
-      "Designed an intuitive report configuration flow.",
-      "Defined the builder interface and available parameters."
+      "Researched common administrator tasks and identified the parameters they genuinely needed to control.",
+      "Designed an intuitive self-service report configuration flow that required no technical expertise.",
+      "Defined interface rules and safeguards that balanced flexibility with configuration reliability."
     ],
-    "result": "Administrators became able to create the dashboards they needed without ongoing development support."
+    "result": "Administrators could create dashboards independently, reducing developer dependency, accelerating access to new reporting and freeing the delivery team for product work."
   }
 ]

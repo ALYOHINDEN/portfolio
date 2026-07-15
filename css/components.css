@@ -382,3 +382,144 @@ html[data-theme="light"] .experience-summary{
   background:color-mix(in srgb,var(--accent) 5%,#fff);
   border-color:color-mix(in srgb,var(--accent) 22%,var(--line));
 }
+
+
+/* Карточки кейсов: смысловые блоки и бизнес-результат */
+.case-card__challenge{
+  margin-bottom:22px;
+}
+
+.case-card__steps-title{
+  margin:0 0 10px;
+  color:var(--text);
+  font-family:var(--font-heading);
+  font-size:.94rem;
+}
+
+.case-card__steps{
+  display:grid;
+  gap:8px;
+  margin:0;
+}
+
+.case-card__result{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+
+.case-card__result > span{
+  display:block;
+  margin-bottom:7px;
+  color:var(--accent-2);
+  font-family:var(--font-heading);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.case-card__result p{
+  margin:0;
+  color:var(--text);
+  font-weight:650;
+}
+
+/* Мобильное модальное окно карьерного пути */
+.timeline-modal[hidden]{display:none}
+
+.timeline-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.timeline-modal__backdrop{
+  position:absolute;
+  inset:0;
+  width:100%;
+  border:0;
+  background:rgba(3,9,18,.72);
+  opacity:0;
+  cursor:default;
+  transition:opacity .22s ease;
+  backdrop-filter:blur(5px);
+}
+
+.timeline-modal__dialog{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-height:min(88vh,900px);
+  overflow:auto;
+  padding:28px 22px calc(28px + env(safe-area-inset-bottom));
+  border:1px solid var(--line);
+  border-radius:26px 26px 0 0;
+  background:var(--surface);
+  box-shadow:0 -24px 70px rgba(0,0,0,.32);
+  transform:translateY(100%);
+  transition:transform .22s ease;
+  overscroll-behavior:contain;
+}
+
+.timeline-modal.is-visible .timeline-modal__backdrop{opacity:1}
+.timeline-modal.is-visible .timeline-modal__dialog{transform:translateY(0)}
+
+.timeline-modal__close{
+  position:sticky;
+  top:0;
+  z-index:2;
+  float:right;
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  margin:-8px -4px 8px 14px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:var(--surface-2);
+  color:var(--text);
+  font-size:1.65rem;
+  line-height:1;
+  cursor:pointer;
+}
+
+.timeline-modal__content h3{
+  padding-right:54px;
+  font-family:var(--font-heading);
+  font-size:clamp(1.8rem,8vw,2.4rem);
+}
+
+.timeline-modal__content .role{
+  margin-bottom:20px;
+  color:var(--accent-2);
+}
+
+.timeline-modal__content .stage{
+  margin:18px 0;
+  padding:18px;
+  border-left:4px solid var(--accent);
+  background:color-mix(in srgb,var(--accent) 8%,transparent);
+  color:var(--text);
+  font-weight:700;
+}
+
+.timeline-modal__content .development{
+  margin:18px 0 24px;
+  color:var(--muted);
+  font-size:1.04rem;
+}
+
+.timeline-modal__content h4{
+  margin:24px 0 8px;
+  font-family:var(--font-heading);
+}
+
+.timeline-modal__content p,
+.timeline-modal__content li{color:var(--muted)}
+.timeline-modal__content ul{padding-left:20px}
+
+body.modal-open{overflow:hidden}

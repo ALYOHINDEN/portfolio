@@ -211,3 +211,26 @@
     padding:15px;
   }
 }
+
+
+@media (max-width:760px){
+  .timeline-detail{display:none}
+
+  .timeline-modal{display:flex}
+
+  .timeline-item{
+    position:relative;
+    padding-right:46px;
+  }
+
+  .timeline-item::after{
+    content:"›";
+    position:absolute;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--accent);
+    font-size:1.8rem;
+    line-height:1;
+  }
+}

@@ -445,3 +445,23 @@ html[data-theme="light"] .card{
     margin-top:0;
   }
 }
+
+
+/* Перетаскивание карусели мышью и пальцем */
+.cases-carousel{
+  cursor:grab;
+  touch-action:pan-y;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.cases-carousel.is-dragging{cursor:grabbing}
+.cases-carousel.is-dragging .case-card{pointer-events:none}
+.cases-track{transform:translate3d(0,0,0)}
+
+.case-card{
+  display:flex;
+  flex-direction:column;
+}
+
+.case-card__result{margin-top:auto}
