@@ -348,9 +348,9 @@ const setupCasesCarousel = (totalItems) => {
     const step = getStep();
     if (!step) return;
 
-    baseTranslate = -index * step;
+    baseTranslate = Math.round(-index * step);
     track.style.transition = animate ? "transform .35s ease" : "none";
-    track.style.transform = `translate3d(${baseTranslate}px,0,0)`;
+    track.style.transform = `translateX(${baseTranslate}px)`;
 
     dots.querySelectorAll(".carousel-dot").forEach((dot, dotIndex) => {
       dot.classList.toggle("is-active", dotIndex === index);
@@ -389,7 +389,7 @@ const setupCasesCarousel = (totalItems) => {
     const atEnd = index === maxIndex() && dragDelta < 0;
     const resistance = atStart || atEnd ? 0.28 : 1;
 
-    track.style.transform = `translate3d(${baseTranslate + dragDelta * resistance}px,0,0)`;
+    track.style.transform =`translateX(${Math.round(baseTranslate + dragDelta * resistance)}px)`;
   };
 
   const finishDrag = (event) => {
