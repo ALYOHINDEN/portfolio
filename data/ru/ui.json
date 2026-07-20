@@ -48,5 +48,7 @@
   "caseActions": "Как решал задачу",
   "businessResult": "Польза для бизнеса",
   "timelineDialogClose": "Закрыть информацию об опыте",
-  "timelineDialogLabel": "Подробности этапа карьерного пути"
+  "timelineDialogLabel": "Подробности этапа карьерного пути",
+  "viewCase": "Посмотреть кейс",
+  "experienceSummaryHint": "Сферы и специализация"
 }

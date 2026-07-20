@@ -17,15 +17,16 @@
     "results": [
       "Moved part of the reporting from manual Excel processing to databases and BI tools.",
       "Reduced manual effort and improved the reliability of reporting processes."
-    ]
+    ],
+    "caseId": "reporting-modernization"
   },
   {
     "id": "expert",
     "duration": "2 years 9 months",
     "company": "Expert Solutions",
-    "role": "Full-stack Analyst",
+    "role": "Business / Systems Analyst",
     "stage": "Moved from data to product and end-to-end processes",
-    "summary": "IP telephony platform for Beeline",
+    "summary": "IP telephony platform",
     "context": "A platform for voice and text interactions, agent management and contact centre reporting.",
     "development": "Working with a full-scale platform helped me see the product end to end: from a customer interaction scenario to administrator tools and management reporting.",
     "tasks": [
@@ -38,7 +39,8 @@
     "results": [
       "Contributed to the development of a unified omnichannel customer service platform.",
       "Designed a reporting builder that enabled administrators to create dashboards independently."
-    ]
+    ],
+    "caseId": "report-builder"
   },
   {
     "id": "astral",
@@ -59,13 +61,14 @@
     "results": [
       "Independently studied the legislation on machine-readable powers of attorney.",
       "Designed the solution and supported its implementation and production testing."
-    ]
+    ],
+    "caseId": "mchd"
   },
   {
     "id": "beeline-2",
     "duration": "2 years 2 months",
     "company": "Beeline",
-    "role": "Systems / Business Analyst",
+    "role": "Business / Systems Analyst",
     "stage": "Connected process research with technical implementation",
     "summary": "Contact centre monitoring and workload management",
     "context": "An internal system for monitoring customer interactions and managing contact centre workload.",
@@ -80,7 +83,8 @@
     "results": [
       "Implemented processing of customer interaction data from chats and messengers.",
       "Created dashboards for workload and performance monitoring."
-    ]
+    ],
+    "caseId": "contact-center-monitoring"
   },
   {
     "id": "renue",
@@ -101,6 +105,7 @@
     "results": [
       "wo processes of the supranational regulatory authority passed acceptance testing on the first attempt.",
       "Independently mastered SAML 2.0 and designed the authentication solution for the regional portal."
-    ]
+    ],
+    "caseId": "regulator-processes"
   }
 ]

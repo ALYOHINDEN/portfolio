@@ -7,7 +7,8 @@
       "Aligned target processes with stakeholders and resolved contradictions before acceptance testing.",
       "Designed the solution and supported development to preserve regulatory and business compliance."
     ],
-    "result": "Two processes passed acceptance testing on the first attempt, reducing the risk of repeated testing, additional rework and launch delays."
+    "result": "Two processes passed acceptance testing on the first attempt, reducing the risk of repeated testing, additional rework and launch delays.",
+    "id": "regulator-processes"
   },
   {
     "title": "Machine-readable powers of attorney",
@@ -17,7 +18,8 @@
       "Interviewed users to validate real-world power-of-attorney workflows.",
       "Defined and validated target scenarios, reducing the risk of building an inconvenient or unnecessary feature."
     ],
-    "result": "The functionality reached production, enabling the product to comply with new legislation on time while preserving practical user workflows."
+    "result": "The functionality reached production, enabling the product to comply with new legislation on time while preserving practical user workflows.",
+    "id": "mchd"
   },
   {
     "title": "Contact centre monitoring",
@@ -27,7 +29,8 @@
       "Designed a data model and processing logic that brought fragmented events into a consistent structure.",
       "Built SQL logic and Grafana dashboards that turned technical data into clear management indicators."
     ],
-    "result": "Managers gained transparent analytics for chats and messengers, creating a stronger basis for workload planning and operational decisions."
+    "result": "Managers gained transparent analytics for chats and messengers, creating a stronger basis for workload planning and operational decisions.",
+    "id": "contact-center-monitoring"
   },
   {
     "title": "Operational reporting modernisation",
@@ -37,7 +40,8 @@
       "Introduced centralised storage and automated data processing instead of manually assembled files.",
       "Moved visualisation to Power BI and Qlik Sense to make recurring analysis easier and more accessible."
     ],
-    "result": "Reporting moved to a reliable database-and-BI setup, reducing manual work, improving calculation consistency and simplifying access to current metrics."
+    "result": "Reporting moved to a reliable database-and-BI setup, reducing manual work, improving calculation consistency and simplifying access to current metrics.",
+    "id": "reporting-modernization"
   },
   {
     "title": "Report builder",
@@ -47,6 +51,7 @@
       "Designed an intuitive self-service report configuration flow that required no technical expertise.",
       "Defined interface rules and safeguards that balanced flexibility with configuration reliability."
     ],
-    "result": "Administrators could create dashboards independently, reducing developer dependency, accelerating access to new reporting and freeing the delivery team for product work."
+    "result": "Administrators could create dashboards independently, reducing developer dependency, accelerating access to new reporting and freeing the delivery team for product work.",
+    "id": "report-builder"
   }
 ]

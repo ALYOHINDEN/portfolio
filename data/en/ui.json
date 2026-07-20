@@ -48,5 +48,7 @@
   "caseActions": "How I approached it",
   "businessResult": "Business impact",
   "timelineDialogClose": "Close experience details",
-  "timelineDialogLabel": "Career stage details"
+  "timelineDialogLabel": "Career stage details",
+  "viewCase": "View case",
+  "experienceSummaryHint": "Domains and specialization"
 }

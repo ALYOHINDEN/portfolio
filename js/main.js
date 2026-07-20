@@ -8,7 +8,9 @@ const state = {
   skills: null,
   projects: null,
   emailHandler: null,
-  carouselCleanup: null
+  carouselCleanup: null,
+  carouselController: null,
+  lastTimelineTrigger: null
 };
 
 const loadJson = async (path) => {
@@ -36,11 +38,6 @@ const applyStaticTranslations = () => {
     element.textContent = getText(element.dataset.i18n);
   });
 
-  const prev = document.querySelector("#cases-prev");
-  const next = document.querySelector("#cases-next");
-  prev.setAttribute("aria-label", state.ui.previousCase);
-  next.setAttribute("aria-label", state.ui.nextCase);
-
   document.querySelectorAll(".language-button").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.language === state.language);
   });
@@ -64,12 +61,12 @@ const renderProfile = () => {
     .map((item) => `<p>${item}</p>`)
     .join("");
 
-  document.querySelector("#domain-list").innerHTML = profile.domains
-    .map((domain) => `<span class="domain-chip">${domain}</span>`)
-    .join("");
-
   document.querySelector("#focus-list").innerHTML = profile.focus
     .map((item) => `<li>${item}</li>`)
+    .join("");
+
+  document.querySelector("#domain-list").innerHTML = profile.domains
+    .map((item) => `<li class="domain-chip">${item}</li>`)
     .join("");
 
   document.querySelector("#contact-telegram").href = profile.telegram;
@@ -78,6 +75,7 @@ const renderProfile = () => {
 
   setupEmailCopy(profile.email);
 };
+
 
 const renderWorkflow = () => {
   document.querySelector("#workflow-grid").innerHTML = state.workflow
@@ -123,6 +121,7 @@ const buildTimelineDetails = (item, titleId = "") => `
 
   <h4>${state.ui.results}</h4>
   <ul>${item.results.map((result) => `<li>${result}</li>`).join("")}</ul>
+  ${item.caseId ? `<button class="timeline-case-link" type="button" data-case-id="${item.caseId}">${state.ui.viewCase}<span aria-hidden="true">→</span></button>` : ""}
 `;
 
 const closeTimelineModal = () => {
@@ -135,28 +134,39 @@ const closeTimelineModal = () => {
   window.setTimeout(() => {
     modal.hidden = true;
     document.querySelector("#timeline-modal-content").innerHTML = "";
+    const dialog = modal.querySelector(".timeline-modal__dialog");
+    dialog.style.removeProperty("transform");
+    dialog.style.removeProperty("transition");
+    modal.querySelector(".timeline-modal__backdrop").style.removeProperty("opacity");
+    state.lastTimelineTrigger?.focus?.({ preventScroll: true });
   }, 220);
 };
 
 const openTimelineModal = (item) => {
   const modal = document.querySelector("#timeline-modal");
   const content = document.querySelector("#timeline-modal-content");
-  const close = document.querySelector("#timeline-modal-close");
   const backdrop = modal.querySelector(".timeline-modal__backdrop");
 
   content.innerHTML = buildTimelineDetails(item, "timeline-modal-title");
-  close.setAttribute("aria-label", state.ui.timelineDialogClose);
   backdrop.setAttribute("aria-label", state.ui.timelineDialogClose);
   modal.querySelector(".timeline-modal__dialog").setAttribute(
     "aria-label",
     state.ui.timelineDialogLabel
   );
 
+  const dialog = modal.querySelector(".timeline-modal__dialog");
+  dialog.setAttribute("tabindex", "-1");
+  dialog.scrollTop = 0;
+  content.scrollTop = 0;
   modal.hidden = false;
   document.body.classList.add("modal-open");
   requestAnimationFrame(() => {
+    dialog.scrollTop = 0;
     modal.classList.add("is-visible");
-    close.focus();
+    requestAnimationFrame(() => {
+      dialog.scrollTop = 0;
+      dialog.focus({ preventScroll: true });
+    });
   });
 };
 
@@ -172,6 +182,46 @@ const setupTimelineModal = () => {
       closeTimelineModal();
     }
   });
+
+  const dialog = modal.querySelector(".timeline-modal__dialog");
+  const backdrop = modal.querySelector(".timeline-modal__backdrop");
+  const dragZone = document.querySelector("#timeline-modal-drag-zone");
+  let pointerId = null;
+  let startY = 0;
+  let deltaY = 0;
+
+  dragZone.addEventListener("pointerdown", (event) => {
+    if (!isMobileTimeline()) return;
+    pointerId = event.pointerId;
+    startY = event.clientY;
+    deltaY = 0;
+    dragZone.setPointerCapture?.(pointerId);
+    dialog.style.transition = "none";
+  });
+
+  dragZone.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== pointerId) return;
+    deltaY = Math.max(0, event.clientY - startY);
+    dialog.style.transform = `translateY(${deltaY}px)`;
+    backdrop.style.opacity = String(Math.max(0, 1 - deltaY / 360));
+  });
+
+  const finishSwipe = (event) => {
+    if (event.pointerId !== pointerId) return;
+    dragZone.releasePointerCapture?.(pointerId);
+    pointerId = null;
+    dialog.style.transition = "transform .22s ease";
+    if (deltaY > 90) {
+      closeTimelineModal();
+    } else {
+      dialog.style.transform = "translateY(0)";
+      backdrop.style.opacity = "1";
+    }
+    deltaY = 0;
+  };
+
+  dragZone.addEventListener("pointerup", finishSwipe);
+  dragZone.addEventListener("pointercancel", finishSwipe);
 };
 
 const renderTimeline = () => {
@@ -213,6 +263,7 @@ const renderTimeline = () => {
 
     const selected = items.find((item) => item.id === button.dataset.id);
     if (!selected) return;
+    state.lastTimelineTrigger = button;
 
     if (isMobileTimeline()) {
       openTimelineModal(selected);
@@ -233,7 +284,7 @@ const renderProjects = () => {
   track.innerHTML = state.projects
     .map(
       (project) => `
-        <article class="case-card">
+        <article class="case-card" data-case-id="${project.id}">
           <span class="case-label">${state.ui.caseLabel}</span>
           <h3>${project.title}</h3>
           <p class="case-card__challenge"><strong>${state.ui.challenge}:</strong> ${project.challenge}</p>
@@ -249,14 +300,14 @@ const renderProjects = () => {
     .join("");
 
   if (state.carouselCleanup) state.carouselCleanup();
-  state.carouselCleanup = setupCasesCarousel(state.projects.length);
+  const carousel = setupCasesCarousel(state.projects.length);
+  state.carouselCleanup = carousel.cleanup;
+  state.carouselController = carousel;
 };
 
 const setupCasesCarousel = (totalItems) => {
   const track = document.querySelector("#projects-track");
   const carousel = document.querySelector("#cases-carousel");
-  const prev = document.querySelector("#cases-prev");
-  const next = document.querySelector("#cases-next");
   const dots = document.querySelector("#carousel-dots");
 
   let index = 0;
@@ -301,22 +352,9 @@ const setupCasesCarousel = (totalItems) => {
     track.style.transition = animate ? "transform .35s ease" : "none";
     track.style.transform = `translate3d(${baseTranslate}px,0,0)`;
 
-    prev.disabled = index === 0;
-    next.disabled = index >= maxIndex();
-
     dots.querySelectorAll(".carousel-dot").forEach((dot, dotIndex) => {
       dot.classList.toggle("is-active", dotIndex === index);
     });
-  };
-
-  const handlePrev = () => {
-    index = Math.max(0, index - 1);
-    update();
-  };
-
-  const handleNext = () => {
-    index = Math.min(maxIndex(), index + 1);
-    update();
   };
 
   const handleResize = () => {
@@ -375,8 +413,6 @@ const setupCasesCarousel = (totalItems) => {
     didDrag = false;
   };
 
-  prev.addEventListener("click", handlePrev);
-  next.addEventListener("click", handleNext);
   window.addEventListener("resize", handleResize);
   carousel.addEventListener("pointerdown", handlePointerDown);
   carousel.addEventListener("pointermove", handlePointerMove);
@@ -387,9 +423,19 @@ const setupCasesCarousel = (totalItems) => {
   buildDots();
   requestAnimationFrame(() => update(false));
 
-  return () => {
-    prev.removeEventListener("click", handlePrev);
-    next.removeEventListener("click", handleNext);
+  const goToCase = (caseId) => {
+    const projectIndex = state.projects.findIndex((project) => project.id === caseId);
+    if (projectIndex < 0) return;
+    index = Math.min(projectIndex, maxIndex());
+    update();
+    window.setTimeout(() => {
+      const card = track.querySelector(`[data-case-id="${caseId}"]`);
+      card?.classList.add("is-highlighted");
+      window.setTimeout(() => card?.classList.remove("is-highlighted"), 1600);
+    }, 420);
+  };
+
+  const cleanup = () => {
     window.removeEventListener("resize", handleResize);
     carousel.removeEventListener("pointerdown", handlePointerDown);
     carousel.removeEventListener("pointermove", handlePointerMove);
@@ -397,6 +443,31 @@ const setupCasesCarousel = (totalItems) => {
     carousel.removeEventListener("pointercancel", finishDrag);
     carousel.removeEventListener("click", suppressClickAfterDrag, true);
   };
+
+  return { cleanup, goToCase };
+};
+
+const openCaseFromTimeline = (caseId) => {
+  const navigate = () => {
+    document.querySelector("#projects").scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => state.carouselController?.goToCase(caseId), 380);
+  };
+
+  const modal = document.querySelector("#timeline-modal");
+  if (!modal.hidden) {
+    closeTimelineModal();
+    window.setTimeout(navigate, 240);
+  } else {
+    navigate();
+  }
+};
+
+const setupTimelineCaseLinks = () => {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest(".timeline-case-link");
+    if (!link) return;
+    openCaseFromTimeline(link.dataset.caseId);
+  });
 };
 
 const showToast = (message) => {
@@ -567,14 +638,44 @@ const setupLanguageSwitcher = () => {
   });
 };
 
+
+const setupRevealAnimations = () => {
+  const targets = document.querySelectorAll(
+    ".section:not(.hero) > .container, .hero .profile-card, .hero .experience-summary"
+  );
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    targets.forEach((target) => target.classList.add("is-revealed"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  targets.forEach((target) => {
+    target.classList.add("reveal");
+    observer.observe(target);
+  });
+};
+
 const init = async () => {
   try {
     setupThemeToggle();
     setupLanguageSwitcher();
     setupScrollNavigation();
     setupTimelineModal();
+    setupTimelineCaseLinks();
 
     await loadLanguage(state.language);
+    setupRevealAnimations();
 
     document.querySelector("#year").textContent = new Date().getFullYear();
   } catch (error) {

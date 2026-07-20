@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/print.css" media="print">
 
    <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -55,11 +54,6 @@
     <section class="hero section">
       <div class="container hero__grid">
         <div class="hero__content">
-          <div class="availability-status" aria-live="polite">
-            <span class="availability-status__main" id="availability"></span>
-            <span class="availability-status__meta" id="availability-meta"></span>
-          </div>
-
           <div class="hero__main">
             <h1 id="profile-name"></h1>
             <p class="hero__title" id="profile-title"></p>
@@ -71,15 +65,24 @@
             </div>
           </div>
 
-          <section class="experience-summary" aria-labelledby="profile-experience">
-            <h2 class="experience-summary__title" id="profile-experience"></h2>
-            <div class="domain-list" id="domain-list"></div>
-          </section>
+          <div class="experience-summary" aria-label="Experience">
+            <span class="experience-summary__title" id="profile-experience"></span>
+            <span class="experience-summary__hint" data-i18n="experienceSummaryHint"></span>
+            <div class="experience-summary__divider" aria-hidden="true"></div>
+            <ul class="domain-list" id="domain-list"></ul>
+          </div>
         </div>
 
         <aside class="profile-card">
           <div class="profile-card__photo-wrap">
             <img class="profile-card__photo" id="profile-photo" src="assets/images/avatar-placeholder.svg" alt="">
+          </div>
+
+          <div class="profile-card__status">
+            <div class="availability-status" aria-live="polite">
+              <span class="availability-status__main" id="availability"></span>
+              <span class="availability-status__meta" id="availability-meta"></span>
+            </div>
           </div>
 
           <div class="profile-card__body">
@@ -95,9 +98,8 @@
         <span class="eyebrow" data-i18n="aboutLabel"></span>
         <h2 class="section-title" data-i18n="aboutTitle"></h2>
 
-        <div class="about-grid">
+        <div class="about-grid about-grid--single">
           <div id="about-text" class="prose"></div>
-          <blockquote data-i18n="quote"></blockquote>
         </div>
       </div>
     </section>
@@ -138,11 +140,6 @@
             <span class="eyebrow" data-i18n="projectsLabel"></span>
             <h2 class="section-title" data-i18n="projectsTitle"></h2>
           </div>
-
-          <div class="carousel-controls">
-            <button class="carousel-button" id="cases-prev" type="button">←</button>
-            <button class="carousel-button" id="cases-next" type="button">→</button>
-          </div>
         </div>
 
         <div class="cases-carousel" id="cases-carousel">
@@ -177,7 +174,9 @@
       aria-modal="true"
       aria-labelledby="timeline-modal-title"
     >
-      <button class="timeline-modal__close" id="timeline-modal-close" type="button" data-timeline-close aria-label="">×</button>
+      <div class="timeline-modal__drag-zone" id="timeline-modal-drag-zone" aria-hidden="true">
+        <span class="timeline-modal__handle"></span>
+      </div>
       <div class="timeline-modal__content" id="timeline-modal-content"></div>
     </section>
   </div>
