@@ -1,68 +1,72 @@
-@media (max-width:1040px) {
+@media (max-width: 1040px) {
   .site-header {
-    padding-right: 20px
+    padding-right: 20px;
   }
 
   .nav {
     max-width: calc(100vw - 190px);
     overflow-x: auto;
-    scrollbar-width: none
+    scrollbar-width: none;
   }
 
   .nav::-webkit-scrollbar {
-    display: none
+    display: none;
   }
 }
 
-@media (max-width:980px) {
-
+@media (max-width: 980px) {
   .hero__grid,
   .timeline-layout,
   .contact__inner {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 
   .workflow,
   .cards-grid {
-    grid-template-columns: repeat(2, 1fr)
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .profile-card {
-    max-width: 520px
+    max-width: 520px;
   }
 
   .timeline-detail {
-    min-height: auto
+    min-height: auto;
   }
 
   .contact__links {
-    justify-content: flex-start
+    justify-content: flex-start;
   }
 
   .case-card {
-    flex-basis: calc((100% - 20px)/2)
+    flex-basis: calc((100% - 20px) / 2);
   }
 
   .hero__content,
   .profile-card {
-    height: auto
+    height: auto;
   }
 
   .hero__main {
-    margin-top: 28px
+    margin-top: 28px;
   }
 
   .experience-summary {
-    margin-top: 30px
+    margin-top: 30px;
   }
 
   html[data-language="ru"] .hero h1 {
     max-width: 760px;
-    white-space: normal
+    white-space: normal;
   }
 }
 
-@media (max-width:760px) {
+@media (max-width: 760px) {
+  .content-modal__case .case-content__title {
+    font-size: 1.45rem;
+    line-height: 1.3;
+  }
+
   .site-header {
     position: sticky;
     display: flex;
@@ -97,7 +101,7 @@
 
     border-bottom: 1px solid var(--line);
     background: var(--header-bg);
-    box-shadow: 0 18px 36px rgba(0, 0, 0, .16);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
     backdrop-filter: blur(16px);
 
     opacity: 0;
@@ -106,9 +110,9 @@
     transform: translateY(-8px);
 
     transition:
-      opacity .22s ease,
-      visibility .22s ease,
-      transform .22s ease;
+      opacity 0.22s ease,
+      visibility 0.22s ease,
+      transform 0.22s ease;
   }
 
   .nav.is-open {
@@ -130,86 +134,82 @@
   }
 
   .section {
-    padding: 78px 0
+    padding: 78px 0;
   }
 
   .hero {
     min-height: auto;
-    padding-top: 80px
+    padding-top: 80px;
   }
 
   .workflow,
   .cards-grid {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
   }
 
   .hero__actions,
   .contact__links {
     flex-direction: column;
-    align-items: stretch
+    align-items: stretch;
   }
 
   .button {
-    width: 100%
+    width: 100%;
   }
 
   .section-heading-row {
-    align-items: flex-start
+    align-items: flex-start;
   }
 
   .cases-carousel {
     margin: -20px;
-    padding: 20px
+    padding: 20px;
   }
 
   .case-card {
-    flex-basis: 100%
+    flex-basis: 100%;
   }
 
   .back-to-top {
     right: 16px;
-    bottom: 16px
+    bottom: 16px;
   }
 
   .profile-card__status {
-    padding: 16px 22px 0
+    padding: 16px 22px 0;
   }
 
   .profile-card__body {
-    padding: 20px 22px 24px
+    padding: 20px 22px 24px;
   }
 
   .experience-summary {
-    margin-top: 24px
+    margin-top: 24px;
   }
 
   .domain-list {
-    gap: 9px
+    gap: 9px;
   }
 
   .domain-chip {
-    font-size: .78rem
+    font-size: 0.78rem;
   }
 
   .timeline-detail {
-    display: none
+    display: none;
   }
 
-  .timeline-modal {
-    display: flex
+  .content-modal__drag-zone {
+    display: block;
   }
 
-  .timeline-modal__drag-zone {
-    display: block
-  }
-
-  .timeline-modal__dialog {
-    padding-top: 28px
+  .content-modal__dialog {
+    padding-top: 28px;
   }
 
   .timeline-item {
     position: relative;
-    padding-right: 46px
+    padding-right: 46px;
   }
 
   .timeline-item::after {
@@ -220,25 +220,24 @@
     color: var(--accent);
     font-size: 1.8rem;
     line-height: 1;
-    transform: translateY(-50%)
+    transform: translateY(-50%);
   }
 
   .timeline-list.is-discovery-hint .timeline-item::after {
-    animation: timeline-arrow-hint 1s cubic-bezier(.2, .75, .25, 1);
+    animation: timeline-arrow-hint 1s cubic-bezier(0.2, 0.75, 0.25, 1);
   }
 
   html[data-language="ru"] .hero h1 {
-    font-size: clamp(3.3rem, 14vw, 5.4rem)
+    font-size: clamp(3.3rem, 14vw, 5.4rem);
   }
 
   html[data-language="ru"] .hero__title,
   .hero__title {
-    font-size: clamp(1.45rem, 7vw, 2rem)
+    font-size: clamp(1.45rem, 7vw, 2rem);
   }
 }
 
 @keyframes timeline-arrow-hint {
-
   0% {
     transform: translateY(-50%) translateX(0);
   }
@@ -254,10 +253,9 @@
   100% {
     transform: translateY(-50%) translateX(0);
   }
-
 }
 
-@media (max-width:560px) {
+@media (max-width: 560px) {
   .header-tools {
     gap: 12px;
   }

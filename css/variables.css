@@ -3,7 +3,7 @@
   --font-heading: "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --max: 1180px;
   --radius: 24px;
-  --shadow: 0 24px 70px rgba(0, 0, 0, .28);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
 }
 
 html[data-theme="dark"] {
@@ -16,9 +16,9 @@ html[data-theme="dark"] {
   --accent-2: #8bc2ff;
   --telegram: #2aabee;
   --success: #5fd19a;
-  --line: rgba(255, 255, 255, .10);
-  --header-bg: rgba(8, 17, 31, .82);
-  --chip-bg: rgba(255, 255, 255, .025);
+  --line: rgba(255, 255, 255, 0.1);
+  --header-bg: rgba(8, 17, 31, 0.82);
+  --chip-bg: rgba(255, 255, 255, 0.025);
 }
 
 html[data-theme="light"] {
@@ -31,8 +31,8 @@ html[data-theme="light"] {
   --accent-2: #175cb9;
   --telegram: #229ed9;
   --success: #167c4e;
-  --line: rgba(19, 33, 58, .13);
-  --header-bg: rgba(245, 247, 251, .88);
-  --chip-bg: rgba(19, 33, 58, .035);
-  --shadow: 0 24px 60px rgba(36, 60, 94, .12);
+  --line: rgba(19, 33, 58, 0.13);
+  --header-bg: rgba(245, 247, 251, 0.88);
+  --chip-bg: rgba(19, 33, 58, 0.035);
+  --shadow: 0 24px 60px rgba(36, 60, 94, 0.12);
 }

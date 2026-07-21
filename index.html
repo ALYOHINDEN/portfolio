@@ -1,211 +1,247 @@
 <!doctype html>
 <html lang="ru" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta id="meta-description" name="description" content="" />
+    <title>Денис Алёхин — бизнес-аналитик</title>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta id="meta-description" name="description" content="">
-  <title>Денис Алёхин — бизнес-аналитик</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Onest:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Onest:wght@500;600;700;800&display=swap"
-    rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/sections.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
 
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/variables.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/sections.css">
-  <link rel="stylesheet" href="css/responsive.css">
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "xmt6kcwjei");
+    </script>
+  </head>
 
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "xmt6kcwjei");
-  </script>
-</head>
+  <body>
+    <header class="site-header">
+      <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-controls="main-nav"
+        aria-expanded="false"
+        aria-label="Открыть меню"
+      >
+        <span class="menu-toggle__line"></span>
+        <span class="menu-toggle__line"></span>
+        <span class="menu-toggle__line"></span>
+      </button>
 
-<body>
-  <header class="site-header">
-    <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false"
-      aria-label="Открыть меню">
-      <span class="menu-toggle__line"></span>
-      <span class="menu-toggle__line"></span>
-      <span class="menu-toggle__line"></span>
+      <nav class="nav" id="main-nav" aria-label="Основная навигация">
+        <a data-i18n="nav.about" href="#about"></a>
+        <a data-i18n="nav.workflow" href="#workflow"></a>
+        <a data-i18n="nav.experience" href="#experience"></a>
+        <a data-i18n="nav.skills" href="#skills"></a>
+        <a data-i18n="nav.projects" href="#projects"></a>
+        <a data-i18n="nav.contact" href="#contact"></a>
+      </nav>
+
+      <div class="header-tools">
+        <div class="language-switcher" aria-label="Language">
+          <button class="language-button is-active" type="button" data-language="ru">RU</button>
+
+          <span aria-hidden="true">|</span>
+
+          <button class="language-button" type="button" data-language="en">EN</button>
+        </div>
+
+        <button class="theme-toggle" id="theme-toggle" type="button">
+          <span class="theme-toggle__icon" aria-hidden="true">☀</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="container hero__grid">
+          <div class="hero__content">
+            <div class="hero__main">
+              <h1 id="profile-name"></h1>
+              <p class="hero__title" id="profile-title"></p>
+              <p class="hero__lead" id="profile-subtitle"></p>
+
+              <div class="hero__actions">
+                <a class="button button--primary" data-i18n="heroPrimary" href="#contact"></a>
+                <a class="button button--secondary" data-i18n="heroSecondary" href="#projects"></a>
+              </div>
+            </div>
+
+            <div class="experience-summary" aria-label="Experience">
+              <span class="experience-summary__title" id="profile-experience"></span>
+              <span class="experience-summary__hint" data-i18n="experienceSummaryHint"></span>
+              <div class="experience-summary__divider" aria-hidden="true"></div>
+              <ul class="domain-list" id="domain-list"></ul>
+            </div>
+          </div>
+
+          <aside class="profile-card">
+            <div class="profile-card__photo-wrap">
+              <img
+                class="profile-card__photo"
+                id="profile-photo"
+                src="assets/images/avatar-placeholder.svg"
+                alt=""
+              />
+            </div>
+
+            <div class="profile-card__status">
+              <div class="availability-status" aria-live="polite">
+                <span class="availability-status__main" id="availability"></span>
+                <span class="availability-status__meta" id="availability-meta"></span>
+              </div>
+            </div>
+
+            <div class="profile-card__body">
+              <span class="profile-card__label" data-i18n="profileFocus"></span>
+              <ul class="focus-list" id="focus-list"></ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="container">
+          <span class="eyebrow" data-i18n="aboutLabel"></span>
+          <h2 class="section-title" data-i18n="aboutTitle"></h2>
+
+          <div class="about-grid about-grid--single">
+            <div id="about-text" class="prose"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="container">
+          <span class="eyebrow" data-i18n="workflowLabel"></span>
+          <h2 class="section-title" data-i18n="workflowTitle"></h2>
+          <div class="workflow" id="workflow-grid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="experience">
+        <div class="container">
+          <span class="eyebrow" data-i18n="experienceLabel"></span>
+          <h2 class="section-title" data-i18n="experienceTitle"></h2>
+          <p class="section-intro" data-i18n="experienceIntro"></p>
+
+          <div class="timeline-layout">
+            <div class="timeline-list" id="timeline-list"></div>
+            <article class="timeline-detail" id="timeline-detail" aria-live="polite"></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="skills">
+        <div class="container">
+          <span class="eyebrow" data-i18n="skillsLabel"></span>
+          <h2 class="section-title" data-i18n="skillsTitle"></h2>
+          <div class="cards-grid" id="skills-grid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-heading-row">
+            <div>
+              <span class="eyebrow" data-i18n="projectsLabel"></span>
+              <h2 class="section-title" data-i18n="projectsTitle"></h2>
+            </div>
+          </div>
+
+          <div class="cases-carousel" id="cases-carousel">
+            <div class="cases-track" id="projects-track"></div>
+          </div>
+          <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="container contact__inner">
+          <div>
+            <span class="eyebrow" data-i18n="contactLabel"></span>
+            <h2 class="section-title" data-i18n="contactTitle"></h2>
+            <p data-i18n="contactText"></p>
+          </div>
+
+          <div class="contact__links">
+            <a
+              id="contact-telegram"
+              class="button button--telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="telegram"
+            ></a>
+            <button
+              id="copy-email"
+              class="button button--primary"
+              type="button"
+              data-i18n="email"
+            ></button>
+            <a id="contact-phone" class="button button--secondary" data-i18n="phone"></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="content-modal" id="content-modal" hidden>
+      <button
+        class="content-modal__backdrop"
+        type="button"
+        data-content-modal-close
+        tabindex="-1"
+        aria-label=""
+      ></button>
+
+      <section
+        class="content-modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="content-modal-title"
+      >
+        <div class="content-modal__drag-zone" id="content-modal-drag-zone" aria-hidden="true">
+          <span class="content-modal__handle"></span>
+        </div>
+
+        <div class="content-modal__content" id="content-modal-content"></div>
+      </section>
+    </div>
+
+    <button class="back-to-top" id="back-to-top" type="button">
+      <span aria-hidden="true">↑</span>
+      <span data-i18n="backToTop"></span>
     </button>
 
-    <nav class="nav" id="main-nav" aria-label="Основная навигация">
-      <a data-i18n="nav.about" href="#about"></a>
-      <a data-i18n="nav.workflow" href="#workflow"></a>
-      <a data-i18n="nav.experience" href="#experience"></a>
-      <a data-i18n="nav.skills" href="#skills"></a>
-      <a data-i18n="nav.projects" href="#projects"></a>
-      <a data-i18n="nav.contact" href="#contact"></a>
-    </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-    <div class="header-tools">
-      <div class="language-switcher" aria-label="Language">
-        <button class="language-button is-active" type="button" data-language="ru">
-          RU
-        </button>
+    <footer class="site-footer">
+      <div class="container">© <span id="year"></span> <span id="footer-name"></span></div>
+    </footer>
 
-        <span aria-hidden="true">|</span>
-
-        <button class="language-button" type="button" data-language="en">
-          EN
-        </button>
-      </div>
-
-      <button class="theme-toggle" id="theme-toggle" type="button">
-        <span class="theme-toggle__icon" aria-hidden="true">☀</span>
-      </button>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero section">
-      <div class="container hero__grid">
-        <div class="hero__content">
-          <div class="hero__main">
-            <h1 id="profile-name"></h1>
-            <p class="hero__title" id="profile-title"></p>
-            <p class="hero__lead" id="profile-subtitle"></p>
-
-            <div class="hero__actions">
-              <a class="button button--primary" data-i18n="heroPrimary" href="#contact"></a>
-              <a class="button button--secondary" data-i18n="heroSecondary" href="#projects"></a>
-            </div>
-          </div>
-
-          <div class="experience-summary" aria-label="Experience">
-            <span class="experience-summary__title" id="profile-experience"></span>
-            <span class="experience-summary__hint" data-i18n="experienceSummaryHint"></span>
-            <div class="experience-summary__divider" aria-hidden="true"></div>
-            <ul class="domain-list" id="domain-list"></ul>
-          </div>
-        </div>
-
-        <aside class="profile-card">
-          <div class="profile-card__photo-wrap">
-            <img class="profile-card__photo" id="profile-photo" src="assets/images/avatar-placeholder.svg" alt="">
-          </div>
-
-          <div class="profile-card__status">
-            <div class="availability-status" aria-live="polite">
-              <span class="availability-status__main" id="availability"></span>
-              <span class="availability-status__meta" id="availability-meta"></span>
-            </div>
-          </div>
-
-          <div class="profile-card__body">
-            <span class="profile-card__label" data-i18n="profileFocus"></span>
-            <ul class="focus-list" id="focus-list"></ul>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="container">
-        <span class="eyebrow" data-i18n="aboutLabel"></span>
-        <h2 class="section-title" data-i18n="aboutTitle"></h2>
-
-        <div class="about-grid about-grid--single">
-          <div id="about-text" class="prose"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="workflow">
-      <div class="container">
-        <span class="eyebrow" data-i18n="workflowLabel"></span>
-        <h2 class="section-title" data-i18n="workflowTitle"></h2>
-        <div class="workflow" id="workflow-grid"></div>
-      </div>
-    </section>
-
-    <section class="section" id="experience">
-      <div class="container">
-        <span class="eyebrow" data-i18n="experienceLabel"></span>
-        <h2 class="section-title" data-i18n="experienceTitle"></h2>
-        <p class="section-intro" data-i18n="experienceIntro"></p>
-
-        <div class="timeline-layout">
-          <div class="timeline-list" id="timeline-list"></div>
-          <article class="timeline-detail" id="timeline-detail" aria-live="polite"></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="skills">
-      <div class="container">
-        <span class="eyebrow" data-i18n="skillsLabel"></span>
-        <h2 class="section-title" data-i18n="skillsTitle"></h2>
-        <div class="cards-grid" id="skills-grid"></div>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-heading-row">
-          <div>
-            <span class="eyebrow" data-i18n="projectsLabel"></span>
-            <h2 class="section-title" data-i18n="projectsTitle"></h2>
-          </div>
-        </div>
-
-        <div class="cases-carousel" id="cases-carousel">
-          <div class="cases-track" id="projects-track"></div>
-        </div>
-        <div class="carousel-dots" id="carousel-dots"></div>
-      </div>
-    </section>
-
-    <section class="section contact" id="contact">
-      <div class="container contact__inner">
-        <div>
-          <span class="eyebrow" data-i18n="contactLabel"></span>
-          <h2 class="section-title" data-i18n="contactTitle"></h2>
-          <p data-i18n="contactText"></p>
-        </div>
-
-        <div class="contact__links">
-          <a id="contact-telegram" class="button button--telegram" target="_blank" rel="noopener noreferrer"
-            data-i18n="telegram"></a>
-          <button id="copy-email" class="button button--primary" type="button" data-i18n="email"></button>
-          <a id="contact-phone" class="button button--secondary" data-i18n="phone"></a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="timeline-modal" id="timeline-modal" hidden>
-    <button class="timeline-modal__backdrop" type="button" data-timeline-close tabindex="-1" aria-label=""></button>
-    <section class="timeline-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="timeline-modal-title">
-      <div class="timeline-modal__drag-zone" id="timeline-modal-drag-zone" aria-hidden="true">
-        <span class="timeline-modal__handle"></span>
-      </div>
-      <div class="timeline-modal__content" id="timeline-modal-content"></div>
-    </section>
-  </div>
-
-  <button class="back-to-top" id="back-to-top" type="button">
-    <span aria-hidden="true">↑</span>
-    <span data-i18n="backToTop"></span>
-  </button>
-
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-  <footer class="site-footer">
-    <div class="container">© <span id="year"></span> <span id="footer-name"></span></div>
-  </footer>
-
-  <script type="module" src="js/main.js"></script>
-</body>
-
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>

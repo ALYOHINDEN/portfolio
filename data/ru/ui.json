@@ -34,7 +34,6 @@
   "caseLabel": "Кейс",
   "challenge": "Задача",
   "tasks": "Что делал",
-  "results": "Результаты",
   "emailCopied": "Адрес {email} скопирован в буфер обмена",
   "emailCopyFailed": "Не удалось скопировать адрес. Почта: {email}",
   "loadError": "Не удалось загрузить данные сайта. Запустите проект через локальный сервер.",
@@ -49,6 +48,10 @@
   "businessResult": "Польза для бизнеса",
   "timelineDialogClose": "Закрыть информацию об опыте",
   "timelineDialogLabel": "Подробности этапа карьерного пути",
-  "viewCase": "Посмотреть кейс",
+  "achievements": "Достижения",
+  "openCase": "Открыть кейс",
+  "backToExperience": "К опыту",
+  "caseDialogClose": "Закрыть кейс",
+  "caseDialogLabel": "Подробное описание кейса",
   "experienceSummaryHint": "Сферы и специализация"
 }

@@ -1,38 +1,38 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0
+  margin: 0;
 }
 
 html {
-    scroll-behavior: smooth
+  scroll-behavior: smooth;
 }
 
 body {
-    min-height: 100vh
+  min-height: 100vh;
 }
 
 img,
 svg {
-    display: block;
-    max-width: 100%
+  display: block;
+  max-width: 100%;
 }
 
 button,
 input,
 textarea,
 select {
-    font: inherit
+  font: inherit;
 }
 
 button {
-    color: inherit
+  color: inherit;
 }
 
 a {
-    color: inherit
+  color: inherit;
 }

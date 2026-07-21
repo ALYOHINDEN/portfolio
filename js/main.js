@@ -10,7 +10,10 @@ const state = {
   emailHandler: null,
   carouselCleanup: null,
   carouselController: null,
-  lastTimelineTrigger: null
+  lastTimelineTrigger: null,
+  lastCaseTrigger: null,
+  currentTimelineItem: null,
+  modalView: null,
 };
 
 const loadJson = async (path) => {
@@ -19,14 +22,10 @@ const loadJson = async (path) => {
   return response.json();
 };
 
-const getText = (path) =>
-  path.split(".").reduce((value, key) => value?.[key], state.ui) ?? "";
+const getText = (path) => path.split(".").reduce((value, key) => value?.[key], state.ui) ?? "";
 
 const formatText = (template, values) =>
-  Object.entries(values).reduce(
-    (text, [key, value]) => text.replace(`{${key}}`, value),
-    template
-  );
+  Object.entries(values).reduce((text, [key, value]) => text.replace(`{${key}}`, value), template);
 
 const applyStaticTranslations = () => {
   document.documentElement.lang = state.language;
@@ -70,12 +69,10 @@ const renderProfile = () => {
     .join("");
 
   document.querySelector("#contact-telegram").href = profile.telegram;
-  document.querySelector("#contact-phone").href =
-    `tel:${profile.phone.replace(/[^+\d]/g, "")}`;
+  document.querySelector("#contact-phone").href = `tel:${profile.phone.replace(/[^+\d]/g, "")}`;
 
   setupEmailCopy(profile.email);
 };
-
 
 const renderWorkflow = () => {
   document.querySelector("#workflow-grid").innerHTML = state.workflow
@@ -86,7 +83,7 @@ const renderWorkflow = () => {
           <h3>${step.title}</h3>
           <p>${step.text}</p>
         </article>
-      `
+      `,
     )
     .join("");
 };
@@ -99,7 +96,7 @@ const renderSkills = () => {
           <h3>${skill.title}</h3>
           <p>${skill.text}</p>
         </article>
-      `
+      `,
     )
     .join("");
 };
@@ -119,13 +116,45 @@ const buildTimelineDetails = (item, titleId = "") => `
   <h4>${state.ui.tasks}</h4>
   <ul>${item.tasks.map((task) => `<li>${task}</li>`).join("")}</ul>
 
-  <h4>${state.ui.results}</h4>
-  <ul>${item.results.map((result) => `<li>${result}</li>`).join("")}</ul>
-  ${item.caseId ? `<button class="timeline-case-link" type="button" data-case-id="${item.caseId}">${state.ui.viewCase}<span aria-hidden="true">→</span></button>` : ""}
+  ${
+    item.caseId
+      ? `
+        <button
+          class="timeline-case-link"
+          type="button"
+          data-case-id="${item.caseId}"
+        >
+          ${state.ui.achievements}
+          <span aria-hidden="true">→</span>
+        </button>
+      `
+      : ""
+  }
 `;
 
-const closeTimelineModal = () => {
-  const modal = document.querySelector("#timeline-modal");
+const buildCaseDetails = (project, showBackButton = false) => `
+  ${
+    showBackButton
+      ? `
+        <button
+          class="content-modal__back"
+          type="button"
+          data-case-back
+        >
+          <span aria-hidden="true">←</span>
+          ${state.ui.backToExperience}
+        </button>
+      `
+      : ""
+  }
+
+  <div class="content-modal__case">
+    ${buildCaseContent(project, "content-modal-title")}
+  </div>
+`;
+
+const closeContentModal = () => {
+  const modal = document.querySelector("#content-modal");
   if (modal.hidden) return;
 
   modal.classList.remove("is-visible");
@@ -133,36 +162,48 @@ const closeTimelineModal = () => {
 
   window.setTimeout(() => {
     modal.hidden = true;
-    document.querySelector("#timeline-modal-content").innerHTML = "";
-    const dialog = modal.querySelector(".timeline-modal__dialog");
+
+    document.querySelector("#content-modal-content").innerHTML = "";
+
+    const dialog = modal.querySelector(".content-modal__dialog");
+    const backdrop = modal.querySelector(".content-modal__backdrop");
+
     dialog.style.removeProperty("transform");
     dialog.style.removeProperty("transition");
-    modal.querySelector(".timeline-modal__backdrop").style.removeProperty("opacity");
-    state.lastTimelineTrigger?.focus?.({ preventScroll: true });
-  }, 220);
+    backdrop.style.removeProperty("opacity");
+
+    const trigger = state.modalView === "case" ? state.lastCaseTrigger : state.lastTimelineTrigger;
+
+    state.modalView = null;
+
+    trigger?.focus?.({ preventScroll: true });
+  }, 320);
 };
 
-const openTimelineModal = (item) => {
-  const modal = document.querySelector("#timeline-modal");
-  const content = document.querySelector("#timeline-modal-content");
-  const backdrop = modal.querySelector(".timeline-modal__backdrop");
+const openContentModal = ({ content, view, dialogLabel, closeLabel }) => {
+  const modal = document.querySelector("#content-modal");
+  const contentElement = document.querySelector("#content-modal-content");
+  const backdrop = modal.querySelector(".content-modal__backdrop");
+  const dialog = modal.querySelector(".content-modal__dialog");
 
-  content.innerHTML = buildTimelineDetails(item, "timeline-modal-title");
-  backdrop.setAttribute("aria-label", state.ui.timelineDialogClose);
-  modal.querySelector(".timeline-modal__dialog").setAttribute(
-    "aria-label",
-    state.ui.timelineDialogLabel
-  );
+  contentElement.innerHTML = content;
 
-  const dialog = modal.querySelector(".timeline-modal__dialog");
+  backdrop.setAttribute("aria-label", closeLabel);
+  dialog.setAttribute("aria-label", dialogLabel);
   dialog.setAttribute("tabindex", "-1");
+
+  state.modalView = view;
+
   dialog.scrollTop = 0;
-  content.scrollTop = 0;
+  contentElement.scrollTop = 0;
+
   modal.hidden = false;
   document.body.classList.add("modal-open");
+
   requestAnimationFrame(() => {
     dialog.scrollTop = 0;
     modal.classList.add("is-visible");
+
     requestAnimationFrame(() => {
       dialog.scrollTop = 0;
       dialog.focus({ preventScroll: true });
@@ -170,22 +211,54 @@ const openTimelineModal = (item) => {
   });
 };
 
-const setupTimelineModal = () => {
-  const modal = document.querySelector("#timeline-modal");
+const openTimelineModal = (item) => {
+  state.currentTimelineItem = item;
 
-  modal.querySelectorAll("[data-timeline-close]").forEach((button) => {
-    button.onclick = closeTimelineModal;
+  openContentModal({
+    content: buildTimelineDetails(item, "content-modal-title"),
+    view: "timeline",
+    dialogLabel: state.ui.timelineDialogLabel,
+    closeLabel: state.ui.timelineDialogClose,
+  });
+};
+
+const openCaseModal = (caseId, trigger = null) => {
+  const project = state.projects.find((item) => item.id === caseId);
+  if (!project) return;
+
+  if (trigger) {
+    state.lastCaseTrigger = trigger;
+  }
+
+  const modal = document.querySelector("#content-modal");
+
+  const cameFromMobileTimeline =
+    isMobileTimeline() && !modal.hidden && state.modalView === "timeline";
+
+  openContentModal({
+    content: buildCaseDetails(project, cameFromMobileTimeline),
+    view: "case",
+    dialogLabel: state.ui.caseDialogLabel,
+    closeLabel: state.ui.caseDialogClose,
+  });
+};
+
+const setupContentModal = () => {
+  const modal = document.querySelector("#content-modal");
+
+  modal.querySelectorAll("[data-content-modal-close]").forEach((button) => {
+    button.onclick = closeContentModal;
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modal.hidden) {
-      closeTimelineModal();
+      closeContentModal();
     }
   });
 
-  const dialog = modal.querySelector(".timeline-modal__dialog");
-  const backdrop = modal.querySelector(".timeline-modal__backdrop");
-  const dragZone = document.querySelector("#timeline-modal-drag-zone");
+  const dialog = modal.querySelector(".content-modal__dialog");
+  const backdrop = modal.querySelector(".content-modal__backdrop");
+  const dragZone = document.querySelector("#content-modal-drag-zone");
   let pointerId = null;
   let startY = 0;
   let deltaY = 0;
@@ -212,7 +285,7 @@ const setupTimelineModal = () => {
     pointerId = null;
     dialog.style.transition = "transform .22s ease";
     if (deltaY > 90) {
-      closeTimelineModal();
+      closeContentModal();
     } else {
       dialog.style.transform = "translateY(0)";
       backdrop.style.opacity = "1";
@@ -245,12 +318,12 @@ const renderTimeline = () => {
           <strong>${item.stage}</strong>
           <span>${item.company} · ${item.summary}</span>
         </button>
-      `
+      `,
     )
     .join("");
 
   showDesktopDetails(items[0]);
-  closeTimelineModal();
+  closeContentModal();
 
   list.onclick = (event) => {
     const button = event.target.closest(".timeline-item");
@@ -264,6 +337,7 @@ const renderTimeline = () => {
     const selected = items.find((item) => item.id === button.dataset.id);
     if (!selected) return;
     state.lastTimelineTrigger = button;
+    state.currentTimelineItem = selected;
 
     if (isMobileTimeline()) {
       openTimelineModal(selected);
@@ -279,28 +353,57 @@ const getVisibleCards = () => {
   return 3;
 };
 
+const buildCaseContent = (project, titleId = "") => `
+  <span class="case-label">${state.ui.caseLabel}</span>
+
+  <h3 ${titleId ? `id="${titleId}"` : ""} class="case-content__title">
+    ${project.title}
+  </h3>
+
+  <p class="case-content__challenge">
+    <strong>${state.ui.challenge}:</strong>
+    ${project.challenge}
+  </p>
+
+  <h4 class="case-content__steps-title">
+    ${state.ui.caseActions}
+  </h4>
+
+  <ul class="case-content__steps">
+    ${project.actions.map((action) => `<li>${action}</li>`).join("")}
+  </ul>
+
+  <section class="case-content__result">
+    <span>${state.ui.businessResult}</span>
+    <p>${project.result}</p>
+  </section>
+`;
+
 const renderProjects = () => {
   const track = document.querySelector("#projects-track");
+
   track.innerHTML = state.projects
     .map(
       (project) => `
-        <article class="case-card" data-case-id="${project.id}">
-          <span class="case-label">${state.ui.caseLabel}</span>
-          <h3>${project.title}</h3>
-          <p class="case-card__challenge"><strong>${state.ui.challenge}:</strong> ${project.challenge}</p>
-          <h4 class="case-card__steps-title">${state.ui.caseActions}</h4>
-          <ul class="case-card__steps">${project.actions.map((action) => `<li>${action}</li>`).join("")}</ul>
-          <div class="case-card__result">
-            <span>${state.ui.businessResult}</span>
-            <p>${project.result}</p>
-          </div>
+        <article
+          class="case-card"
+          data-case-id="${project.id}"
+          tabindex="0"
+          role="button"
+          aria-label="${state.ui.openCase}: ${project.title}"
+        >
+          ${buildCaseContent(project)}
         </article>
-      `
+      `,
     )
     .join("");
 
-  if (state.carouselCleanup) state.carouselCleanup();
+  if (state.carouselCleanup) {
+    state.carouselCleanup();
+  }
+
   const carousel = setupCasesCarousel(state.projects.length);
+
   state.carouselCleanup = carousel.cleanup;
   state.carouselController = carousel;
 };
@@ -335,10 +438,7 @@ const setupCasesCarousel = (totalItems) => {
       const dot = document.createElement("button");
       dot.type = "button";
       dot.className = `carousel-dot ${dotIndex === index ? "is-active" : ""}`;
-      dot.setAttribute(
-        "aria-label",
-        formatText(state.ui.carouselGroup, { number: dotIndex + 1 })
-      );
+      dot.setAttribute("aria-label", formatText(state.ui.carouselGroup, { number: dotIndex + 1 }));
       dot.onclick = () => {
         userInteracted = true;
         swipeHintAnimation?.cancel();
@@ -373,24 +473,24 @@ const setupCasesCarousel = (totalItems) => {
     swipeHintAnimation = track.animate(
       [
         {
-          transform: `translateX(${baseTranslate}px)`
+          transform: `translateX(${baseTranslate}px)`,
         },
         {
           transform: `translateX(${baseTranslate - 20}px)`,
-          offset: .12
+          offset: 0.12,
         },
         {
           transform: `translateX(${baseTranslate - 20}px)`,
-          offset: .88
+          offset: 0.88,
         },
         {
-          transform: `translateX(${baseTranslate}px)`
-        }
+          transform: `translateX(${baseTranslate}px)`,
+        },
       ],
       {
         duration: 2400,
-        easing: "cubic-bezier(.2, .75, .25, 1)"
-      }
+        easing: "cubic-bezier(.2, .75, .25, 1)",
+      },
     );
   };
 
@@ -478,24 +578,12 @@ const setupCasesCarousel = (totalItems) => {
         observer.disconnect();
       },
       {
-        threshold: .45
-      }
+        threshold: 0.45,
+      },
     );
 
     swipeHintObserver.observe(carousel);
   }
-
-  const goToCase = (caseId) => {
-    const projectIndex = state.projects.findIndex((project) => project.id === caseId);
-    if (projectIndex < 0) return;
-    index = Math.min(projectIndex, maxIndex());
-    update();
-    window.setTimeout(() => {
-      const card = track.querySelector(`[data-case-id="${caseId}"]`);
-      card?.classList.add("is-highlighted");
-      window.setTimeout(() => card?.classList.remove("is-highlighted"), 1600);
-    }, 420);
-  };
 
   const cleanup = () => {
     swipeHintAnimation?.cancel();
@@ -509,29 +597,46 @@ const setupCasesCarousel = (totalItems) => {
     carousel.removeEventListener("click", suppressClickAfterDrag, true);
   };
 
-  return { cleanup, goToCase };
+  return { cleanup };
 };
 
-const openCaseFromTimeline = (caseId) => {
-  const navigate = () => {
-    document.querySelector("#projects").scrollIntoView({ behavior: "smooth", block: "start" });
-    window.setTimeout(() => state.carouselController?.goToCase(caseId), 380);
-  };
-
-  const modal = document.querySelector("#timeline-modal");
-  if (!modal.hidden) {
-    closeTimelineModal();
-    window.setTimeout(navigate, 240);
-  } else {
-    navigate();
-  }
-};
-
-const setupTimelineCaseLinks = () => {
+const setupContentModalNavigation = () => {
   document.addEventListener("click", (event) => {
-    const link = event.target.closest(".timeline-case-link");
-    if (!link) return;
-    openCaseFromTimeline(link.dataset.caseId);
+    const timelineCaseLink = event.target.closest(".timeline-case-link");
+
+    if (timelineCaseLink) {
+      openCaseModal(timelineCaseLink.dataset.caseId, timelineCaseLink);
+
+      return;
+    }
+
+    const caseCard = event.target.closest(".case-card");
+
+    if (caseCard) {
+      openCaseModal(caseCard.dataset.caseId, caseCard);
+      return;
+    }
+
+    const backButton = event.target.closest("[data-case-back]");
+
+    if (backButton && state.currentTimelineItem) {
+      openContentModal({
+        content: buildTimelineDetails(state.currentTimelineItem, "content-modal-title"),
+        view: "timeline",
+        dialogLabel: state.ui.timelineDialogLabel,
+        closeLabel: state.ui.timelineDialogClose,
+      });
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const card = event.target.closest(".case-card");
+    if (!card) return;
+
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    openCaseModal(card.dataset.caseId, card);
   });
 };
 
@@ -603,8 +708,7 @@ const updateScrollState = () => {
 
   if (!inHero) {
     const atPageBottom =
-      window.scrollY + window.innerHeight >=
-      document.documentElement.scrollHeight - 4;
+      window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
 
     if (atPageBottom) {
       currentId = "contact";
@@ -620,7 +724,7 @@ const updateScrollState = () => {
   links.forEach((link) => {
     link.classList.toggle(
       "is-active",
-      currentId !== null && link.getAttribute("href") === `#${currentId}`
+      currentId !== null && link.getAttribute("href") === `#${currentId}`,
     );
   });
 };
@@ -691,10 +795,7 @@ const applyTheme = () => {
 
   const isDark = state.theme === "dark";
   icon.textContent = isDark ? "☀" : "☾";
-  toggle.setAttribute(
-    "aria-label",
-    isDark ? state.ui.themeToLight : state.ui.themeToDark
-  );
+  toggle.setAttribute("aria-label", isDark ? state.ui.themeToLight : state.ui.themeToDark);
   toggle.title = isDark ? state.ui.themeToLight : state.ui.themeToDark;
 };
 
@@ -714,7 +815,7 @@ const loadLanguage = async (language) => {
     loadJson(`${base}/workflow.json`),
     loadJson(`${base}/timeline.json`),
     loadJson(`${base}/skills.json`),
-    loadJson(`${base}/projects.json`)
+    loadJson(`${base}/projects.json`),
   ]);
 
   Object.assign(state, {
@@ -724,7 +825,7 @@ const loadLanguage = async (language) => {
     workflow,
     timeline,
     skills,
-    projects
+    projects,
   });
 
   localStorage.setItem("portfolio-language", language);
@@ -766,14 +867,13 @@ const setupMobileDiscoveryHints = () => {
           window.setTimeout(() => {
             timelineList.classList.remove("is-discovery-hint");
           }, 2400);
-
         }, 1000);
 
         observer.disconnect();
       },
       {
-        threshold: .35
-      }
+        threshold: 0.35,
+      },
     );
 
     timelineObserver.observe(timelineList);
@@ -782,7 +882,7 @@ const setupMobileDiscoveryHints = () => {
 
 const setupRevealAnimations = () => {
   const targets = document.querySelectorAll(
-    ".section:not(.hero) > .container, .hero .profile-card, .hero .experience-summary"
+    ".section:not(.hero) > .container, .hero .profile-card, .hero .experience-summary",
   );
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -798,7 +898,7 @@ const setupRevealAnimations = () => {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
   );
 
   targets.forEach((target) => {
@@ -813,8 +913,8 @@ const init = async () => {
     setupLanguageSwitcher();
     setupMobileMenu();
     setupScrollNavigation();
-    setupTimelineModal();
-    setupTimelineCaseLinks();
+    setupContentModal();
+    setupContentModalNavigation();
 
     await loadLanguage(state.language);
     setupRevealAnimations();
@@ -827,7 +927,7 @@ const init = async () => {
       "afterbegin",
       `<div style="padding:12px;background:#7f1d1d;color:#fff;text-align:center">
         ${state.ui?.loadError || "Could not load site data."}
-      </div>`
+      </div>`,
     );
   }
 };

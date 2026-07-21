@@ -34,7 +34,6 @@
   "caseLabel": "Case",
   "challenge": "Challenge",
   "tasks": "What I did",
-  "results": "Results",
   "emailCopied": "Email {email} copied to clipboard",
   "emailCopyFailed": "Could not copy the address. Email: {email}",
   "loadError": "Could not load site data. Please run the project through a local server.",
@@ -49,6 +48,10 @@
   "businessResult": "Business impact",
   "timelineDialogClose": "Close experience details",
   "timelineDialogLabel": "Career stage details",
-  "viewCase": "View case",
+  "achievements": "Achievements",
+  "openCase": "Open case",
+  "backToExperience": "Back to experience",
+  "caseDialogClose": "Close case",
+  "caseDialogLabel": "Case details",
   "experienceSummaryHint": "Domains and specialization"
 }

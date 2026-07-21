@@ -1,6 +1,6 @@
 @page {
   size: A4;
-  margin: 14mm
+  margin: 14mm;
 }
 
 .site-header,
@@ -20,11 +20,11 @@ body {
 }
 
 .section {
-  padding: 10mm 0
+  padding: 10mm 0;
 }
 
 .hero {
-  min-height: auto
+  min-height: auto;
 }
 
 .hero__grid,
@@ -64,9 +64,9 @@ li,
 }
 
 .section-title {
-  font-size: 24pt
+  font-size: 24pt;
 }
 
 .timeline-modal {
-  display: none !important
+  display: none !important;
 }

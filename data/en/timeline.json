@@ -14,10 +14,6 @@
       "Automated data collection and processing.",
       "Built models and visualisations in Excel, Power BI and Qlik Sense."
     ],
-    "results": [
-      "Moved part of the reporting from manual Excel processing to databases and BI tools.",
-      "Reduced manual effort and improved the reliability of reporting processes."
-    ],
     "caseId": "reporting-modernization"
   },
   {
@@ -35,10 +31,6 @@
       "Designed platform functionality.",
       "Documented user scenarios.",
       "Supported development and production rollout."
-    ],
-    "results": [
-      "Contributed to the development of a unified omnichannel customer service platform.",
-      "Designed a reporting builder that enabled administrators to create dashboards independently."
     ],
     "caseId": "report-builder"
   },
@@ -58,10 +50,6 @@
       "Validated product hypotheses.",
       "Designed electronic forms and automated data entry."
     ],
-    "results": [
-      "Independently studied the legislation on machine-readable powers of attorney.",
-      "Designed the solution and supported its implementation and production testing."
-    ],
     "caseId": "mchd"
   },
   {
@@ -80,10 +68,6 @@
       "Designed REST APIs and data models.",
       "Developed PostgreSQL scripts and Grafana dashboards."
     ],
-    "results": [
-      "Implemented processing of customer interaction data from chats and messengers.",
-      "Created dashboards for workload and performance monitoring."
-    ],
     "caseId": "contact-center-monitoring"
   },
   {
@@ -101,10 +85,6 @@
       "Facilitated meetings and aligned requirements.",
       "Designed contracts, databases and services.",
       "Supported development and acceptance testing."
-    ],
-    "results": [
-      "wo processes of the supranational regulatory authority passed acceptance testing on the first attempt.",
-      "Independently mastered SAML 2.0 and designed the authentication solution for the regional portal."
     ],
     "caseId": "regulator-processes"
   }
