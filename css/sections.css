@@ -425,11 +425,11 @@ html[data-theme="light"] .workflow article {
 }
 
 .cases-track {
-    display:flex;
-    gap:20px;
-    padding:2px 0 24px;
-    transform:translateX(0);
-    transition:transform .35s ease;
+  display: flex;
+  gap: 20px;
+  padding: 2px 0 24px;
+  transform: translateX(0);
+  transition: transform .35s ease;
 }
 
 .case-card {

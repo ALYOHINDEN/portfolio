@@ -317,6 +317,9 @@ const setupCasesCarousel = (totalItems) => {
   let dragDelta = 0;
   let baseTranslate = 0;
   let didDrag = false;
+  let userInteracted = false;
+  let swipeHintAnimation = null;
+  let swipeHintObserver = null;
 
   const maxIndex = () => Math.max(0, totalItems - visibleCards);
 
@@ -337,6 +340,10 @@ const setupCasesCarousel = (totalItems) => {
         formatText(state.ui.carouselGroup, { number: dotIndex + 1 })
       );
       dot.onclick = () => {
+        userInteracted = true;
+        swipeHintAnimation?.cancel();
+        swipeHintObserver?.disconnect();
+
         index = dotIndex;
         update();
       };
@@ -357,6 +364,36 @@ const setupCasesCarousel = (totalItems) => {
     });
   };
 
+  const playSwipeHint = () => {
+    if (window.innerWidth > 760) return;
+    if (maxIndex() === 0) return;
+    if (userInteracted) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    swipeHintAnimation = track.animate(
+      [
+        {
+          transform: `translateX(${baseTranslate}px)`
+        },
+        {
+          transform: `translateX(${baseTranslate - 20}px)`,
+          offset: .12
+        },
+        {
+          transform: `translateX(${baseTranslate - 20}px)`,
+          offset: .88
+        },
+        {
+          transform: `translateX(${baseTranslate}px)`
+        }
+      ],
+      {
+        duration: 2400,
+        easing: "cubic-bezier(.2, .75, .25, 1)"
+      }
+    );
+  };
+
   const handleResize = () => {
     const nextVisibleCards = getVisibleCards();
     if (nextVisibleCards !== visibleCards) {
@@ -370,6 +407,9 @@ const setupCasesCarousel = (totalItems) => {
   const handlePointerDown = (event) => {
     if (event.button !== undefined && event.button !== 0) return;
 
+    userInteracted = true;
+    swipeHintAnimation?.cancel();
+    swipeHintObserver?.disconnect();
     pointerId = event.pointerId;
     dragStartX = event.clientX;
     dragDelta = 0;
@@ -389,7 +429,7 @@ const setupCasesCarousel = (totalItems) => {
     const atEnd = index === maxIndex() && dragDelta < 0;
     const resistance = atStart || atEnd ? 0.28 : 1;
 
-    track.style.transform =`translateX(${Math.round(baseTranslate + dragDelta * resistance)}px)`;
+    track.style.transform = `translateX(${Math.round(baseTranslate + dragDelta * resistance)}px)`;
   };
 
   const finishDrag = (event) => {
@@ -423,6 +463,28 @@ const setupCasesCarousel = (totalItems) => {
   buildDots();
   requestAnimationFrame(() => update(false));
 
+  if (window.innerWidth <= 760 && maxIndex() > 0) {
+    swipeHintObserver = new IntersectionObserver(
+      (entries, observer) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+
+        window.setTimeout(() => {
+          if (!userInteracted) {
+            playSwipeHint();
+          }
+        }, 1000);
+
+        observer.disconnect();
+      },
+      {
+        threshold: .45
+      }
+    );
+
+    swipeHintObserver.observe(carousel);
+  }
+
   const goToCase = (caseId) => {
     const projectIndex = state.projects.findIndex((project) => project.id === caseId);
     if (projectIndex < 0) return;
@@ -436,6 +498,9 @@ const setupCasesCarousel = (totalItems) => {
   };
 
   const cleanup = () => {
+    swipeHintAnimation?.cancel();
+    swipeHintObserver?.disconnect();
+
     window.removeEventListener("resize", handleResize);
     carousel.removeEventListener("pointerdown", handlePointerDown);
     carousel.removeEventListener("pointermove", handlePointerMove);
@@ -560,6 +625,51 @@ const updateScrollState = () => {
   });
 };
 
+const setupMobileMenu = () => {
+  const button = document.querySelector("#menu-toggle");
+  const nav = document.querySelector("#main-nav");
+
+  if (!button || !nav) return;
+
+  const closeMenu = () => {
+    button.setAttribute("aria-expanded", "false");
+    nav.classList.remove("is-open");
+  };
+
+  const openMenu = () => {
+    button.setAttribute("aria-expanded", "true");
+    nav.classList.add("is-open");
+  };
+
+  button.addEventListener("click", () => {
+    const isOpen = button.getAttribute("aria-expanded") === "true";
+
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  nav.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 760) {
+      closeMenu();
+    }
+  });
+};
+
 const setupScrollNavigation = () => {
   const backToTop = document.querySelector("#back-to-top");
 
@@ -638,6 +748,37 @@ const setupLanguageSwitcher = () => {
   });
 };
 
+const setupMobileDiscoveryHints = () => {
+  if (window.innerWidth > 760) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const timelineList = document.querySelector("#timeline-list");
+
+  if (timelineList) {
+    const timelineObserver = new IntersectionObserver(
+      (entries, observer) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+
+        window.setTimeout(() => {
+          timelineList.classList.add("is-discovery-hint");
+
+          window.setTimeout(() => {
+            timelineList.classList.remove("is-discovery-hint");
+          }, 2400);
+
+        }, 1000);
+
+        observer.disconnect();
+      },
+      {
+        threshold: .35
+      }
+    );
+
+    timelineObserver.observe(timelineList);
+  }
+};
 
 const setupRevealAnimations = () => {
   const targets = document.querySelectorAll(
@@ -670,12 +811,14 @@ const init = async () => {
   try {
     setupThemeToggle();
     setupLanguageSwitcher();
+    setupMobileMenu();
     setupScrollNavigation();
     setupTimelineModal();
     setupTimelineCaseLinks();
 
     await loadLanguage(state.language);
     setupRevealAnimations();
+    setupMobileDiscoveryHints();
 
     document.querySelector("#year").textContent = new Date().getFullYear();
   } catch (error) {

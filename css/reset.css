@@ -1,8 +1,38 @@
-*,*::before,*::after{box-sizing:border-box}
-*{margin:0}
-html{scroll-behavior:smooth}
-body{min-height:100vh}
-img,svg{display:block;max-width:100%}
-button,input,textarea,select{font:inherit}
-button{color:inherit}
-a{color:inherit}
+*,
+*::before,
+*::after {
+    box-sizing: border-box
+}
+
+* {
+    margin: 0
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    min-height: 100vh
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit
+}
+
+button {
+    color: inherit
+}
+
+a {
+    color: inherit
+}

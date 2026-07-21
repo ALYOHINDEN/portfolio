@@ -1,4 +1,7 @@
-@page{size:A4;margin:14mm}
+@page {
+  size: A4;
+  margin: 14mm
+}
 
 .site-header,
 .hero__actions,
@@ -6,43 +9,48 @@
 .back-to-top,
 .toast,
 .carousel-controls,
-.carousel-dots{
-  display:none!important;
+.carousel-dots {
+  display: none !important;
 }
 
-body{
-  background:#fff!important;
-  color:#111!important;
-  font-size:10pt;
+body {
+  background: #fff !important;
+  color: #111 !important;
+  font-size: 10pt;
 }
 
-.section{padding:10mm 0}
-.hero{min-height:auto}
+.section {
+  padding: 10mm 0
+}
+
+.hero {
+  min-height: auto
+}
 
 .hero__grid,
 .about-grid,
 .timeline-layout,
-.contact__inner{
-  display:block;
+.contact__inner {
+  display: block;
 }
 
 .profile-card,
 .card,
 .case-card,
 .timeline-detail,
-.workflow article{
-  box-shadow:none;
-  background:#fff;
-  border:1px solid #ccc;
+.workflow article {
+  box-shadow: none;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
-.cases-track{
-  display:block;
-  transform:none!important;
+.cases-track {
+  display: block;
+  transform: none !important;
 }
 
-.case-card{
-  margin-bottom:8mm;
+.case-card {
+  margin-bottom: 8mm;
 }
 
 p,
@@ -51,10 +59,14 @@ li,
 .card p,
 .case-card p,
 .timeline-detail p,
-.timeline-detail li{
-  color:#333!important;
+.timeline-detail li {
+  color: #333 !important;
 }
 
-.section-title{font-size:24pt}
+.section-title {
+  font-size: 24pt
+}
 
-.timeline-modal{display:none!important}
+.timeline-modal {
+  display: none !important
+}
